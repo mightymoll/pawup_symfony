@@ -7,33 +7,33 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
-class Animal
+abstract class Animal
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 15, nullable: true)]
-    private ?string $numICAD = null;
+    protected ?string $numICAD = null;
 
     #[ORM\Column(length: 80)]
-    private ?string $name = null;
+    protected ?string $name = null;
 
     #[ORM\Column(length: 7)]
-    private ?string $sex = null;
+    protected ?string $sex = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateBirth = null;
+    protected ?\DateTimeInterface $dateBirth = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $descLong = null;
+    protected ?string $descLong = null;
 
     #[ORM\Column]
-    private ?bool $hasDateBirth = false;
+    protected ?bool $hasDateBirth = false;
 
     #[ORM\Column(length: 200, nullable: true)]
-    private ?string $descShort = null;
+    protected ?string $descShort = null;
 
     public function getId(): ?int
     {
