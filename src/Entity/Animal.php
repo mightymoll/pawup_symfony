@@ -2,44 +2,40 @@
 
 namespace App\Entity;
 
-use App\Repository\AnimalRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
+use DateTime;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\MappedSuperclass;
 
-#[ORM\Entity(repositoryClass: AnimalRepository::class)]
+// use 'mappedSuperClass' from doctrine to allow attributes & methodes to be inherited
+#[MappedSuperclass]
 abstract class Animal
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    protected ?int $id = null;
+    // ATTRIBUTES
+    // will be used for both 'Cat' and 'Dog' Entities
+    #[Column(type: 'string')]
+    protected string $numICAD;
+    #[Column(type: 'string')]
+    protected string $name;
+    #[Column(type: 'string')]
+    protected string $sex;
+    #[Column(type: 'boolean')]
+    protected bool $hasDateBirth;
+    #[Column(type: 'date')]
+    protected DateTime $dateBirth;
+    #[Column(type: 'string')]
+    protected string $descShort;
+    #[Column(type: 'text')]
+    protected string $descLong;
 
-    #[ORM\Column(length: 15, nullable: true)]
-    protected ?string $numICAD = null;
+    // jointure with 'Cat' table
+    // id from 'Animal' will be injected into 'cat_id' @ Cat table
+    #[OneToOne(targetEntity: Cat::class)]
+    #[JoinColumn(name: 'cat_id', referencedColumnName: 'id')]
+    protected Cat|null $cat = null;
 
-    #[ORM\Column(length: 80)]
-    protected ?string $name = null;
-
-    #[ORM\Column(length: 7)]
-    protected ?string $sex = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    protected ?\DateTimeInterface $dateBirth = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    protected ?string $descLong = null;
-
-    #[ORM\Column]
-    protected ?bool $hasDateBirth = false;
-
-    #[ORM\Column(length: 200, nullable: true)]
-    protected ?string $descShort = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
+    // METHODS
     public function getNumICAD(): ?string
     {
         return $this->numICAD;
@@ -76,6 +72,18 @@ abstract class Animal
         return $this;
     }
 
+    public function isHasDateBirth(): ?bool
+    {
+        return $this->hasDateBirth;
+    }
+
+    public function setHasDateBirth(bool $hasDateBirth): static
+    {
+        $this->hasDateBirth = $hasDateBirth;
+
+        return $this;
+    }
+
     public function getDateBirth(): ?\DateTimeInterface
     {
         return $this->dateBirth;
@@ -93,25 +101,6 @@ abstract class Animal
         return $this->descLong;
     }
 
-    public function setDescLong(?string $descLong): static
-    {
-        $this->descLong = $descLong;
-
-        return $this;
-    }
-
-    public function isHasDateBirth(): ?bool
-    {
-        return $this->hasDateBirth;
-    }
-
-    public function setHasDateBirth(bool $hasDateBirth): static
-    {
-        $this->hasDateBirth = $hasDateBirth;
-
-        return $this;
-    }
-
     public function getDescShort(): ?string
     {
         return $this->descShort;
@@ -123,4 +112,13 @@ abstract class Animal
 
         return $this;
     }
-}
+
+    public function setDescLong(?string $descLong): static
+    {
+        $this->descLong = $descLong;
+
+        return $this;
+    }
+};
+
+?>
