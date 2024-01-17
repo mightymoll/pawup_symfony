@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 
 // use 'mappedSuperClass' from doctrine to allow attributes & methodes to be inherited
@@ -28,12 +26,6 @@ abstract class Animal
     protected string $descShort;
     #[Column(type: 'text')]
     protected string $descLong;
-
-    // jointure with 'Cat' table
-    // id from 'Animal' will be injected into 'cat_id' @ Cat table
-    #[OneToOne(targetEntity: Cat::class)]
-    #[JoinColumn(name: 'cat_id', referencedColumnName: 'id')]
-    protected Cat|null $cat = null;
 
     // METHODS
     public function getNumICAD(): ?string
