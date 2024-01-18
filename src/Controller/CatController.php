@@ -11,7 +11,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+// security import
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 #[Route('/cat')]
+// only users with admin priviledges (admin or benevole) can access
+#[isGranted('ROLE_ADMIN')]
 class CatController extends AbstractController
 {
     #[Route('/', name: 'app_cat_index', methods: ['GET'])]

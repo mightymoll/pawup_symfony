@@ -14,7 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 // for hashing password
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+// security import
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 #[Route('/user')]
+// only users with super admin priviledges can access
+#[isGranted('ROLE_SUPER_ADMIN')]
 class UserController extends AbstractController
 {
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
