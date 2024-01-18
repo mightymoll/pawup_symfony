@@ -42,8 +42,8 @@ class SignupType extends AbstractType
         ],
       ])
       ->add('telephone', TextType::class, [
-        "label" => "Téléphone : ",
-        "required" => false
+      "label" => "Téléphone * : ",
+      "required" => false,
       ]);
   }
 
